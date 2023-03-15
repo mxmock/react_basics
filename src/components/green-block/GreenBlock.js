@@ -1,11 +1,18 @@
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import mc from "./green-block.module.scss";
-import { decrement, increment } from "../../redux/reducers/counter.slice";
+import { decrement, increment, incrementByAmount } from "../../redux/reducers/counter.slice";
 
-const GreenBlock = (props) => {
-  const { click } = props;
+const GreenBlock = ({ click }) => {
+  const handleChangeAmount = (value) => {
+    if (value === "") return;
+    setAmount(parseInt(value));
+  };
 
-  const dispatch = useDispatch();
+  const handleIncrementByAmount = (amount) => {
+    console.log("increment by amount");
+    dispatch(incrementByAmount({ amount }));
+  };
 
   const handleIncrement = () => {
     console.log("increment");
@@ -16,6 +23,9 @@ const GreenBlock = (props) => {
     console.log("decrement");
     dispatch(decrement());
   };
+
+  const dispatch = useDispatch();
+  const [amount, setAmount] = useState(1);
 
   return (
     <div
@@ -36,6 +46,19 @@ const GreenBlock = (props) => {
         onClick={handleDecrement}
       >
         <span>Decrement</span>
+      </button>
+
+      <input
+        type="number"
+        value={amount}
+        onChange={(e) => handleChangeAmount(e.target.value)}
+      />
+
+      <button
+        type="button"
+        onClick={() => handleIncrementByAmount(amount)}
+      >
+        <span>Increment by amount</span>
       </button>
     </div>
   );

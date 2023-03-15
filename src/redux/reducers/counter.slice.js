@@ -17,7 +17,8 @@ export const counterSlice = createSlice({
       return { ...state, value: state.value - 1 };
     },
     incrementByAmount: (state, action) => {
-      return { ...state };
+      console.log("action : ", action);
+      return { ...state, value: state.value + action.payload.amount };
     },
   },
 });
