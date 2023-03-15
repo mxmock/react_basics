@@ -1,28 +1,33 @@
 // import "./App.css";
 import { useState } from "react";
 import mc from "./app.module.scss";
-import Button from "../button/Button";
-
-const obj = {
-  red: "red",
-  ["is-active"]: "is active",
-};
-
-// obj.red            =>   'red'
-// obj['is-active']   =>   'is active'
+import RedBlock from "../red-block/RedBlock";
+import BlueBlock from "../blue-block/BlueBlock";
+import { SIZES } from "../../constants/size.constants";
 
 const App = () => {
-  const [isActive, setIsActive] = useState(true);
+  const [size, setSize] = useState(SIZES.small);
 
-  const handleClick = () => {
-    setIsActive(!isActive);
+  const handleSize = () => {
+    // setSize(size === SIZES.big ? SIZES.normal : SIZES.big);
+
+    setSize((actualState) => {
+      if (actualState === SIZES.big) {
+        return SIZES.normal;
+      } else if (actualState === SIZES.small) {
+        return SIZES.normal;
+      } else {
+        return SIZES.big;
+      }
+    });
+
+    // setSize((actualState) => (actualState === SIZES.big ? SIZES.normal : SIZES.big));
   };
 
   return (
-    <div className="red">
-      <p className={`big ${mc.red} ${isActive ? mc["is-active"] : ""}`}>Yo</p>
-
-      <Button click={handleClick} />
+    <div className={mc.container}>
+      <BlueBlock size={size} />
+      <RedBlock click={handleSize} />
     </div>
   );
 };
