@@ -1,15 +1,19 @@
 import { useEffect } from "react";
+import mc from "./red-block.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getOneTodo, getTodos } from "../../redux/reducers/todo.slice";
-import mc from "./red-block.module.scss";
 
 const RedBlock = () => {
   const dispatch = useDispatch();
 
   const { todos, loading } = useSelector((store) => store.todo);
 
+  const showOne = (id) => {
+    dispatch(getOneTodo(id));
+  };
+
   useEffect(() => {
-    dispatch(getOneTodo(3));
+    dispatch(getTodos());
   }, []);
 
   return (
@@ -21,7 +25,13 @@ const RedBlock = () => {
       ) : (
         <ul>
           {todos.map((t) => (
-            <li key={t.id}>{t.title}</li>
+            <li
+              id={t.id}
+              key={t.id}
+              onClick={() => showOne(t.id)}
+            >
+              {t.title}
+            </li>
           ))}
         </ul>
       )}
