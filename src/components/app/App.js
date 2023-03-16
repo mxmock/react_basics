@@ -26,8 +26,7 @@ const App = () => {
 
   return (
     <div className={mc.container}>
-      <BlueBlock size={size} />
-      <RedBlock click={handleSize} />
+      <RedBlock />
     </div>
   );
 };
