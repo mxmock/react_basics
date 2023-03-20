@@ -1,33 +1,63 @@
 import mc from "./blue-block.module.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SIZES } from "../../constants/size.constants";
+import { changeDescription, uploadFile, uploadImage } from "../../redux/reducers/file.slice";
 
 const BlueBlock = (props) => {
   const { size } = props;
+  const dispatch = useDispatch();
 
-  // const counter = useSelector((store) => {
-  //   return store.counter;
-  // });
+  const handleFileUpload = (file) => {
+    dispatch(uploadFile({ fileImage: file }));
+  };
 
-  const { counterValue, sizeValue, color, width, height } = useSelector((store) => {
-    return {
-      counterValue: store.counter.value,
-      color: store.counter.color,
-      width: store.size.width,
-      height: store.size.height,
-      sizeValue: store.size.value,
-    };
-  });
+  const handleChangeDescription = (value) => {
+    dispatch(changeDescription({ value }));
+  };
+
+  const sendFile = () => {
+    dispatch(uploadImage({ description, fileImage }));
+  };
+
+  const { counterValue, sizeValue, color, width, height, description, fileImage } = useSelector(
+    (store) => {
+      return {
+        counterValue: store.counter.value,
+        color: store.counter.color,
+        width: store.size.width,
+        height: store.size.height,
+        sizeValue: store.size.value,
+        description: store.file.description,
+        fileImage: store.file.fileImage,
+      };
+    }
+  );
 
   return (
-    <div className={`${mc.container} ${getSize(size, mc)}`}>
+    <div className={`${mc.container} ${mc.big}`}>
       <p>blue block</p>
 
-      <p>{color}</p>
-      <p>{counterValue}</p>
-      <p>{width}</p>
-      <p>{height}</p>
-      <p>{sizeValue}</p>
+      <div>
+        <input
+          type="text"
+          value={description}
+          onChange={(e) => handleChangeDescription(e.target.value)}
+        />
+      </div>
+
+      <div>
+        <input
+          type="file"
+          onChange={(e) => handleFileUpload(e.target.files[0])}
+        />
+      </div>
+
+      <button
+        type="button"
+        onClick={sendFile}
+      >
+        Send file
+      </button>
     </div>
   );
 };

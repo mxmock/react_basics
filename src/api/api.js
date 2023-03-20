@@ -23,6 +23,35 @@ const postRequest = async (url, body = {}, token = null) => {
   return await request(url, config);
 };
 
+const postFileRequest = async (url, formData = {}, token = null) => {
+  const config = {
+    method: "POST",
+    body: formData,
+  };
+
+  if (token) config.headers.Authorization = token;
+
+  return await requestFile(url, config);
+};
+
+const requestFile = async (url, config) => {
+  let status = -1;
+  let error = null;
+  let result = null;
+
+  try {
+    const response = await fetch(`${API_URL}${url}`, config);
+    status = response.status;
+    result = await response.blob();
+    const imageObjectURL = URL.createObjectURL(result);
+    result = imageObjectURL || null;
+  } catch (e) {
+    error = e.message;
+  } finally {
+    return handleResponse(result, status, error);
+  }
+};
+
 const request = async (url, config) => {
   let status = -1;
   let error = null;
@@ -48,4 +77,4 @@ const handleResponse = (result, status, error) => {
   };
 };
 
-export { getRequest, postRequest };
+export { getRequest, postRequest, postFileRequest };

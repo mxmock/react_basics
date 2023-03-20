@@ -27,6 +27,7 @@ const App = () => {
   return (
     <div className={mc.container}>
       <RedBlock />
+      <BlueBlock />
     </div>
   );
 };
